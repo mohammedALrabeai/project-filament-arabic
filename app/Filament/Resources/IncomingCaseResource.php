@@ -40,7 +40,10 @@ class IncomingCaseResource extends Resource
                 Forms\Components\TextInput::make('year')
                     ->label('السنة')
                     ->numeric()
-                    ->required(),
+                    ->required()
+                    ->minValue(1901)
+                    ->maxValue(2155)
+                    ->helperText('يرجى إدخال سنة صحيحة بين 1901 و2155'),
 
                 Forms\Components\Textarea::make('subject')
                     ->label('موضوع القضية')

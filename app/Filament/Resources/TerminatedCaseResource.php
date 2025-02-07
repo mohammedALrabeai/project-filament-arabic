@@ -87,7 +87,7 @@ class TerminatedCaseResource extends Resource
 
                 // استخدام DatePicker لاختيار تاريخ صدور الحكم
                 Forms\Components\DatePicker::make('verdict_date')
-                    ->label('تاريخ صدور الحكم بالهجري')
+                    ->label('تاريخ صدور الحكم')
                     ->required(),
 
                 Forms\Components\TextInput::make('verdict_method')
@@ -108,41 +108,67 @@ class TerminatedCaseResource extends Resource
                 Tables\Columns\TextColumn::make('general_number')
                     ->label('الرقم العام')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),  // قابل للإخفاء/الظهور
 
                 Tables\Columns\TextColumn::make('verdict_number')
                     ->label('رقم الحكم')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
 
-                // استخدام TextColumn لعرض تاريخ صدور الحكم بتنسيق مناسب
                 Tables\Columns\TextColumn::make('verdict_date')
-                    ->label('تاريخ صدور الحكم بالهجري')
-                    ->date('Y-m-d')
-                    ->sortable(),
+                    ->label('تاريخ صدور الحكم')
+                    ->date('Y-m-d') // تأكد من تنسيق التاريخ حسب الحاجة
+                    ->sortable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('verdict_method')
                     ->label('كيفية صدور الحكم')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('draft_editor')
                     ->label('اسم محرر المسودة')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 // عرض بيانات القضية الواردة من العلاقة
                 Tables\Columns\TextColumn::make('incomingCase.case_number')
                     ->label('رقم القضية')
                     ->sortable()
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('incomingCase.year')
                     ->label('السنة')
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(),
 
                 Tables\Columns\TextColumn::make('incomingCase.subject')
                     ->label('موضوع القضية')
                     ->limit(50)
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('incomingCase.plaintiff')
+                    ->label('المستانف')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('incomingCase.defendant')
+                    ->label('المستانف ضده')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+
+                Tables\Columns\TextColumn::make('incomingCase.authority')
+                    ->label('الجهة')
+                    ->sortable()
+                    ->searchable()
+                    ->toggleable(),
+
             ])
             ->filters([
                 // فلتر لاختيار الرقم العام من القضايا الواردة
