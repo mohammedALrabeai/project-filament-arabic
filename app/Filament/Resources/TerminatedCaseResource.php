@@ -10,6 +10,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use MohamedSabil83\FilamentHijriPicker\Forms\Components\HijriDatePicker;
 
 class TerminatedCaseResource extends Resource
 {
@@ -33,6 +34,7 @@ class TerminatedCaseResource extends Resource
                     ->options(
                         IncomingCase::query()->pluck('general_number', 'general_number')->toArray()
                     )
+                    ->searchable()
                     ->reactive() // لجعل الحقل تفاعلياً عند تغييره
                     ->afterStateUpdated(function ($state, callable $set) {
                         if ($state) {
@@ -78,7 +80,7 @@ class TerminatedCaseResource extends Resource
                             ->disabled(),
                     ])
                     ->collapsible() // يجعل القسم قابل للإخفاء/الإظهار
-                    ->collapsed(true), // القسم مخفي بشكل افتراضي
+                    ->collapsed(false), // القسم مخفي بشكل افتراضي
 
                 // باقي الحقول الخاصة بالقضية المنتهية
                 Forms\Components\TextInput::make('verdict_number')
@@ -86,8 +88,8 @@ class TerminatedCaseResource extends Resource
                     ->required(),
 
                 // استخدام DatePicker لاختيار تاريخ صدور الحكم
-                Forms\Components\DatePicker::make('verdict_date')
-                    ->label('تاريخ صدور الحكم')
+                HijriDatePicker::make('verdict_date')
+                    ->label('تاريخ صدور الحكم بالهجري')
                     ->required(),
 
                 Forms\Components\TextInput::make('verdict_method')
@@ -122,6 +124,12 @@ class TerminatedCaseResource extends Resource
                     ->date('Y-m-d') // تأكد من تنسيق التاريخ حسب الحاجة
                     ->sortable()
                     ->toggleable(),
+                Tables\Columns\TextColumn::make('verdict_date')
+                    ->label(__('تاريخ صدور الحكم بالهجري')) // نهاية السجل التجاري (هجري)
+                    ->date() // يعرض التاريخ فقط بدون الوقت
+                    ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('d/m/Y'))
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 Tables\Columns\TextColumn::make('verdict_method')
                     ->label('كيفية صدور الحكم')

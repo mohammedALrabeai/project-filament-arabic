@@ -38,12 +38,12 @@ class IncomingCaseResource extends Resource
                     ->maxLength(255),
 
                 Forms\Components\TextInput::make('year')
-                    ->label('السنة')
+                    ->label('السنة (هجري)')
                     ->numeric()
                     ->required()
-                    ->minValue(1901)
-                    ->maxValue(2155)
-                    ->helperText('يرجى إدخال سنة صحيحة بين 1901 و2155'),
+                    ->minValue(1300)      // أدنى قيمة مقبولة للسنوات الهجرية (يمكنك تعديلها حسب احتياجاتك)
+                    ->maxValue(1500)      // أعلى قيمة مقبولة للسنوات الهجرية
+                    ->helperText('يرجى إدخال سنة هجريّة صحيحة، مثل 1445'),
 
                 Forms\Components\Textarea::make('subject')
                     ->label('موضوع القضية')
